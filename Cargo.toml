@@ -1,0 +1,44 @@
+[package]
+name = "io-hook"
+description = "I/O-free hook library"
+version = "0.0.1"
+authors = ["Clément DOUIN <pimalaya.org@posteo.net>"]
+rust-version = "1.88"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+categories = ["api-bindings", "os"]
+keywords = ["io-free", "coroutine", "runtime", "notification", "notify"]
+homepage = "https://pimalaya.org"
+documentation = "https://docs.rs/io-hook/latest/io_hook"
+repository = "https://github.com/pimalaya/io-hook"
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+[features]
+default = []
+command = ["dep:io-process"]
+notify = ["dep:io-notify"]
+serde = ["dep:serde", "io-process?/serde", "io-notify?/serde"]
+vendored = ["io-notify?/vendored"]
+
+[[example]]
+name = "std"
+required-features = ["command", "notify"]
+
+[dev-dependencies]
+env_logger = "0.11"
+io-notify = { version = "0.0.1", default-features = false, features = ["std"] }
+io-process = { version = "0.0.2", default-features = false, features = ["std"] }
+
+[dependencies]
+io-notify = { version = "0.0.1", default-features = false, optional = true }
+io-process = { version = "0.0.2", default-features = false, optional = true }
+log = { version = "0.4", default-features = false }
+serde = { version = "1", default-features = false, features = ["derive"], optional = true }
+thiserror = { version = "2", default-features = false }
+
+[patch.crates-io]
+io-notify.git = "https://github.com/pimalaya/io-notify"
+io-process.git = "https://github.com/pimalaya/io-process"
